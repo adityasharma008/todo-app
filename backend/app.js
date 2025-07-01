@@ -1,13 +1,18 @@
 import express from 'express'
 import tasks from './routes/task.js'
-import { connectDB } from './db/connect.js'
+import connectDB from './db/connect.js'
 import dotenv from 'dotenv'
+import notFound from './middleware/not-found.js'
+import errorHandler from './middleware/error-handler.js'
 
 dotenv.config()
 const app = express()
 
 app.use(express.json())
 app.use('/api/v1/tasks', tasks)
+
+app.use(notFound)
+app.use(errorHandler)
 
 const port = 5000
 

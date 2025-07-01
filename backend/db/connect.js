@@ -5,4 +5,4 @@ const connectDB = (url) => {
       .connect(url)
 } 
 
-export {connectDB}
+export default connectDB
