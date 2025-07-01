@@ -4,17 +4,19 @@ import connectDB from './db/connect.js'
 import dotenv from 'dotenv'
 import notFound from './middleware/not-found.js'
 import errorHandler from './middleware/error-handler.js'
+import cors from 'cors'
 
 dotenv.config()
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 app.use('/api/v1/tasks', tasks)
 
 app.use(notFound)
 app.use(errorHandler)
 
-const port = 5000
+const port = process.env.PORT || 5000
 
 const start = async() => {
    try {
