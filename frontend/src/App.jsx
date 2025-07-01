@@ -2,6 +2,7 @@ import TaskForm from "./TaskForm";
 import TaskList from "./TaskList"
 import { useState, useEffect } from "react";
 import axios from "axios"
+import './styles.css'
 
 function App() {
 
@@ -13,7 +14,32 @@ function App() {
         setTasks(tasks => [...tasks, res.data.task])
       })
       .catch((err) => {
-        console.log("Error fetching")
+        console.log(`Error adding task: ${err}`)
+      })
+  }
+
+  function toggleComplete(id) {
+    console.log("Hello")
+    axios.patch(`http://localhost:5000/api/v1/tasks/${id}`)
+      .then(() => {
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task._id === id ? { ...task, completed: !task.completed } : task
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(`Error deleting task: ${err}`)
+      })
+  }
+
+  function deleteTask(id) {
+    axios.delete(`http://localhost:5000/api/v1/tasks/${id}`)
+        .then(() => {
+          setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id))
+        })
+      .catch((err) => {
+        console.log(`Error deleting task: ${err}`)
       })
   }
 
@@ -23,7 +49,7 @@ function App() {
           setTasks(res.data.tasks)
         })
         .catch((err) => {
-          console.log("Error fetching")
+          console.log(`Error fetching tasks: ${err}`)
         })
   }, [])
 
@@ -31,7 +57,7 @@ function App() {
     <div className="app-container">
       <h1 className="app-title">Todo List</h1>
       <TaskForm addTask={addTask}></TaskForm>
-      <TaskList tasks={tasks}></TaskList>
+      <TaskList tasks={tasks} deleteTask={deleteTask} toggleComplete={toggleComplete}></TaskList>
     </div>
   );
 }

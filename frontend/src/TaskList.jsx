@@ -1,6 +1,6 @@
 import TaskItem from "./TaskItem"
 
-export default function TaskList({tasks}) {
+export default function TaskList({tasks, deleteTask, toggleComplete}) {
 
    return (
       <div className="task-list-container">
@@ -12,6 +12,8 @@ export default function TaskList({tasks}) {
                   <TaskItem
                      key={task._id}
                      task={task}
+                     deleteTask={deleteTask}
+                     toggleComplete={toggleComplete}
                   />
                ))}
             </ul>
