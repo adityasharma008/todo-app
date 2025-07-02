@@ -18,9 +18,8 @@ function App() {
       })
   }
 
-  function toggleComplete(id) {
-    console.log("Hello")
-    axios.patch(`http://localhost:5000/api/v1/tasks/${id}`)
+  function toggleComplete(id, completed) {
+    axios.patch(`http://localhost:5000/api/v1/tasks/${id}`, {completed: !completed})
       .then(() => {
         setTasks((prevTasks) =>
           prevTasks.map((task) =>
