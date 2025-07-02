@@ -1,10 +1,10 @@
 import TaskItem from "./TaskItem"
 
-export default function TaskList({tasks, deleteTask, toggleComplete}) {
+export default function TaskList({tasks, deleteTask, toggleComplete, editTask}) {
 
    return (
       <div className="task-list-container">
-         {tasks.length === 0 ? (
+         {!tasks || tasks.length === 0 ? (
             <p className="no-tasks-message">No tasks yet! Add one above.</p>
          ) : (
             <ul className="task-list">
@@ -14,6 +14,7 @@ export default function TaskList({tasks, deleteTask, toggleComplete}) {
                      task={task}
                      deleteTask={deleteTask}
                      toggleComplete={toggleComplete}
+                     editTask={editTask}
                   />
                ))}
             </ul>

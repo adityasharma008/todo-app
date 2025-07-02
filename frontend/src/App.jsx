@@ -25,11 +25,25 @@ function App() {
           prevTasks.map((task) =>
             task._id === id ? { ...task, completed: !task.completed } : task
           )
-        );
+        )
       })
       .catch((err) => {
         console.log(`Error deleting task: ${err}`)
       })
+  }
+
+  function editTask(id, newName) {
+    axios.patch(`http://localhost:5000/api/v1/tasks/${id}`, {name: newName})
+        .then(() => {
+          setTasks((prevTasks) => 
+            prevTasks.map((task) => 
+              task._id === id ?  { ...task, name: newName} : task
+            )
+          )
+        })
+        .catch((err) => {
+          console.log(`Error editing title: ${err}`)
+        })
   }
 
   function deleteTask(id) {
@@ -56,7 +70,12 @@ function App() {
     <div className="app-container">
       <h1 className="app-title">Todo List</h1>
       <TaskForm addTask={addTask}></TaskForm>
-      <TaskList tasks={tasks} deleteTask={deleteTask} toggleComplete={toggleComplete}></TaskList>
+      <TaskList 
+        tasks={tasks} 
+        deleteTask={deleteTask} 
+        toggleComplete={toggleComplete} 
+        editTask={editTask}>
+      </TaskList>
     </div>
   );
 }
