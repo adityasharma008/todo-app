@@ -6,15 +6,16 @@ import dotenv from 'dotenv'
 import notFound from './middleware/not-found.js'
 import errorHandler from './middleware/error-handler.js'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
 dotenv.config()
 const app = express()
 
 app.use(express.json())
 app.use(cors())
+app.use(cookieParser())
 app.use('/api/v1/tasks', tasks)
 app.use('/api/v1/auth', authRouter)
-
 
 app.use(notFound)
 app.use(errorHandler)

@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
       type: Number, 
       default: 0
    },
-   taskArr: [TaskSchema]
+   tasks: [TaskSchema]
 })
 
 export default mongoose.model('User', userSchema)

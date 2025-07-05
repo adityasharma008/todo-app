@@ -4,6 +4,12 @@ import { getAllTasks, createTask, updateTask, deleteTask } from "../controllers/
 
 const router = express.Router()
 
+
+router.use((req, res, next) => {
+   next()
+})
+
+
 router.get('/', userAuth, getAllTasks)
 router.post('/', userAuth, createTask)
 router.patch('/:id', userAuth, updateTask)
