@@ -1,5 +1,6 @@
 import express from 'express'
 import tasks from './routes/task.js'
+import authRouter from './routes/authRouter.js'
 import connectDB from './db/connect.js'
 import dotenv from 'dotenv'
 import notFound from './middleware/not-found.js'
@@ -12,6 +13,8 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use('/api/v1/tasks', tasks)
+app.use('/api/v1/auth', authRouter)
+
 
 app.use(notFound)
 app.use(errorHandler)

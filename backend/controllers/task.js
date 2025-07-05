@@ -1,4 +1,4 @@
-import Task from '../models/task.js'
+import User from '../models/userModel.js'
 import asyncWrapper from '../middleware/async-wrapper.js'
 
 const getAllTasks = asyncWrapper(async (req, res) => {
