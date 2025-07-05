@@ -9,9 +9,8 @@ const getAllTasks = asyncWrapper(async (req, res) => {
 })
 
 const createTask = asyncWrapper(async (req, res) => {
-   const user = userModel.findById(res.userId)
+   const user = await userModel.findById(req.userId)
    if (!user) return res.status(404).json({ msg: 'User not found' })
-
    user.tasks.push(req.body)
    await user.save()
 
@@ -22,7 +21,7 @@ const createTask = asyncWrapper(async (req, res) => {
 const updateTask = asyncWrapper(async (req, res) => {
    const { id: taskID } = req.params
 
-   const user = userModel.findById(res.userId)
+   const user = await userModel.findById(req.userId)
    if (!user) return res.status(404).json({ msg: 'User not found' })
 
    const task = user.tasks.id(taskID)
@@ -36,13 +35,11 @@ const updateTask = asyncWrapper(async (req, res) => {
 
 const deleteTask = asyncWrapper(async (req, res) => {
    const { id: taskID } = req.params
-   const user = await userModel.findById(res.userId)
+   const user = await userModel.findById(req.userId)
    if (!user) return res.status(404).json({ msg: 'User not found' })
-
    const task = user.tasks.id(taskID)
    if (!task) return res.status(404).json({ msg: `No task with id: ${taskID}` })
-
-   task.remove()
+   user.tasks.pull(taskID)
    await user.save()
 
    res.status(200).json({ msg: 'Task deleted successfully' })
