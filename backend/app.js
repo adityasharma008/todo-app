@@ -1,5 +1,5 @@
 import express from 'express'
-import tasks from './routes/task.js'
+import tasks from './routes/taskRouter.js'
 import authRouter from './routes/authRouter.js'
 import connectDB from './db/connect.js'
 import dotenv from 'dotenv'
