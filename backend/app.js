@@ -7,6 +7,7 @@ import notFound from './middleware/not-found.js'
 import errorHandler from './middleware/error-handler.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import userRouter from './routes/userRouter.js'
 
 dotenv.config()
 const app = express()
@@ -16,6 +17,7 @@ app.use(cors())
 app.use(cookieParser())
 app.use('/api/v1/tasks', tasks)
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/user', userRouter)
 
 app.use(notFound)
 app.use(errorHandler)
