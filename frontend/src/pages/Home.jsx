@@ -1,80 +1,81 @@
 import TaskForm from "../components/TaskForm";
-import TaskList from "../components/TaskList"
-import { useState, useEffect } from "react";
-import axios from "axios"
+import TaskList from "../components/TaskList";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { AppContext } from "../context/AppContext";
 
 function Home() {
-
-   const [tasks, setTasks] = useState([])
+   const { backendUrl } = useContext(AppContext);
+   const [tasks, setTasks] = useState([]);
 
    function addTask(taskTitle) {
-      axios.post("http://localhost:5000/api/v1/tasks", { name: taskTitle })
+      axios.post(`${backendUrl}/api/v1/tasks`, { name: taskTitle })
          .then((res) => {
-            setTasks(tasks => [...tasks, res.data.task])
+            setTasks(tasks => [...tasks, res.data.newTask]);
          })
          .catch((err) => {
-            console.log(`Error adding task: ${err}`)
-         })
+            console.log(`Error adding task: ${err}`);
+         });
    }
 
    function toggleComplete(id, completed) {
-      axios.patch(`http://localhost:5000/api/v1/tasks/${id}`, { completed: !completed })
+      axios.patch(`${backendUrl}/api/v1/tasks/${id}`, { completed: !completed })
          .then(() => {
             setTasks((prevTasks) =>
                prevTasks.map((task) =>
                   task._id === id ? { ...task, completed: !task.completed } : task
                )
-            )
+            );
          })
          .catch((err) => {
-            console.log(`Error deleting task: ${err}`)
-         })
+            console.log(`Error updating task: ${err}`);
+         });
    }
 
    function editTask(id, newName) {
-      axios.patch(`http://localhost:5000/api/v1/tasks/${id}`, { name: newName })
+      axios.patch(`${backendUrl}/api/v1/tasks/${id}`, { name: newName })
          .then(() => {
             setTasks((prevTasks) =>
                prevTasks.map((task) =>
                   task._id === id ? { ...task, name: newName } : task
                )
-            )
+            );
          })
          .catch((err) => {
-            console.log(`Error editing title: ${err}`)
-         })
+            console.log(`Error editing title: ${err}`);
+         });
    }
 
    function deleteTask(id) {
-      axios.delete(`http://localhost:5000/api/v1/tasks/${id}`)
+      axios.delete(`${backendUrl}/api/v1/tasks/${id}`)
          .then(() => {
-            setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id))
+            setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
          })
          .catch((err) => {
-            console.log(`Error deleting task: ${err}`)
-         })
+            console.log(`Error deleting task: ${err}`);
+         });
    }
 
    useEffect(() => {
-      axios.get("http://localhost:5000/api/v1/tasks")
+      axios.get(`${backendUrl}/api/v1/tasks`)
          .then((res) => {
-            setTasks(res.data.tasks)
+            setTasks(res.data.tasks);
          })
          .catch((err) => {
-            console.log(`Error fetching tasks: ${err}`)
-         })
-   }, [])
+            console.log(`Error fetching tasks: ${err}`);
+         });
+   }, [backendUrl]);
 
    return (
       <div className="app-container">
          <h1 className="app-title">Todo List</h1>
-         <TaskForm addTask={addTask}></TaskForm>
+         <TaskForm addTask={addTask} />
          <TaskList
             tasks={tasks}
             deleteTask={deleteTask}
             toggleComplete={toggleComplete}
-            editTask={editTask}>
-         </TaskList>
+            editTask={editTask}
+         />
       </div>
    );
 }
