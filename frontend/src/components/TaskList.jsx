@@ -1,11 +1,22 @@
+import { useContext } from "react"
+import { AppContext } from "../context/AppContext"
 import TaskItem from "./TaskItem"
 
-export default function TaskList({tasks, deleteTask, toggleComplete, editTask}) {
+export default function TaskList({ tasks, deleteTask, toggleComplete, editTask }) {
+   const { isAuthorized } = useContext(AppContext)
+
+   let message = null
+
+   if (!isAuthorized) {
+      message = "Login to view and manage your tasks."
+   } else if (tasks.length === 0) {
+      message = "No tasks yet! Add one above."
+   }
 
    return (
       <div className="task-list-container">
-         {!tasks || tasks.length === 0 ? (
-            <p className="no-tasks-message">No tasks yet! Add one above.</p>
+         {message ? (
+            <p className="no-tasks-message">{message}</p>
          ) : (
             <ul className="task-list">
                {tasks.map(task => (

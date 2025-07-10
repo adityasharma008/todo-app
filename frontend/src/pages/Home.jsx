@@ -6,9 +6,8 @@ import axios from "axios";
 import { AppContext } from "../context/AppContext";
 
 
-
 function Home() {
-   const { backendUrl } = useContext(AppContext);
+   const { backendUrl, isAuthorized } = useContext(AppContext);
    const [tasks, setTasks] = useState([]);
 
    function addTask(taskTitle) {
@@ -60,6 +59,7 @@ function Home() {
    }
 
    useEffect(() => {
+      if(!isAuthorized) return
       axios.get(`${backendUrl}/api/v1/tasks`)
          .then((res) => {
             setTasks(res.data.tasks);

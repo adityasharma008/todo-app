@@ -11,7 +11,7 @@ function Login() {
 
    const navigate = useNavigate()
 
-   const { backendUrl } = useContext(AppContext)
+   const { backendUrl, isAuthorized, setIsAuthorized } = useContext(AppContext)
 
    const handleSubmit = (e) => {
       axios.defaults.withCredentials = true
@@ -20,13 +20,19 @@ function Login() {
 
       if(state === 'Sign Up') {
          axios.post(`${backendUrl}/api/v1/auth/register`, { name, email, password })
-         .then(() => {navigate('/')})
+         .then(() => {
+            setIsAuthorized(true)
+            navigate('/')
+         })
             .catch((err) => {
                console.log(`Error loggin in: ${err}`)
             })
       } else if(state === 'Login') {
          axios.post(`${backendUrl}/api/v1/auth/login`, { email, password })
-            .then(() => { navigate('/') })
+            .then(() => { 
+               setIsAuthorized(true)
+               navigate('/') 
+            })
             .catch((err) => {
                console.log(`Error logging: ${err}`)
             })
