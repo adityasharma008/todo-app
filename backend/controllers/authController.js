@@ -10,13 +10,11 @@ const register = async (req, res) => {
       if(!name || !email || !password) {
          return res.status(400).json({message: 'Missing details'})
       }
-
       const existingUser = await userModel.findOne({email})
 
       if (existingUser) {
          return res.status(400).json({message: 'User already registered'})
       }
-
       const hashedPassword = await bcrypt.hash(password, 10)
 
       const user = new userModel({name, email, password})
@@ -34,7 +32,7 @@ const register = async (req, res) => {
       return res.status(200).json({message: 'User registered!'})
 
    } catch(error) {
-      res.status(400).json({message: error.message})
+      res.status(400).json({error})
    }
 }
 

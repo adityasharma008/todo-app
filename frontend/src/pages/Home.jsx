@@ -1,15 +1,18 @@
 import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
+import Header from "../components/Header";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AppContext } from "../context/AppContext";
+
+
 
 function Home() {
    const { backendUrl } = useContext(AppContext);
    const [tasks, setTasks] = useState([]);
 
    function addTask(taskTitle) {
-      axios.post(`${backendUrl}/api/v1/tasks`, { name: taskTitle })
+      axios.post(`${backendUrl}/api/v1/tasks`, { taskName: taskTitle })
          .then((res) => {
             setTasks(tasks => [...tasks, res.data.newTask]);
          })
@@ -33,11 +36,11 @@ function Home() {
    }
 
    function editTask(id, newName) {
-      axios.patch(`${backendUrl}/api/v1/tasks/${id}`, { name: newName })
+      axios.patch(`${backendUrl}/api/v1/tasks/${id}`, { taskName: newName })
          .then(() => {
             setTasks((prevTasks) =>
                prevTasks.map((task) =>
-                  task._id === id ? { ...task, name: newName } : task
+                  task._id === id ? { ...task, taskName: newName } : task
                )
             );
          })
@@ -68,7 +71,7 @@ function Home() {
 
    return (
       <div className="app-container">
-         <h1 className="app-title">Todo List</h1>
+         <Header />
          <TaskForm addTask={addTask} />
          <TaskList
             tasks={tasks}
