@@ -40,6 +40,6 @@ jobs:
             docker rm todo-back || true
             docker system prune -f
             docker pull ${{ secrets.DOCKER_USERNAME }}/todo-back:latest
-            docker run -d --name todo-back -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/todo-back:latest
+            docker run -d --name todo-back --env-file=.env -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/todo-back:latest
           EOF
       
