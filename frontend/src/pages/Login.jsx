@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"
 import { AppContext } from "../context/AppContext"
 
 function Login() {
+   axios.defaults.withCredentials = true
+
    const [state, setState] = useState('Sign Up')
    const [name, setName] = useState('')
    const [email, setEmail] = useState('')
@@ -14,8 +16,6 @@ function Login() {
    const { backendUrl, isAuthorized, setIsAuthorized } = useContext(AppContext)
 
    const handleSubmit = (e) => {
-      axios.defaults.withCredentials = true
-
       e.preventDefault()
 
       if(state === 'Sign Up') {

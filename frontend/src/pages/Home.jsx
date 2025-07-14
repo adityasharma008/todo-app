@@ -10,6 +10,8 @@ function Home() {
    const { backendUrl, isAuthorized } = useContext(AppContext);
    const [tasks, setTasks] = useState([]);
 
+   axios.defaults.withCredentials = true;
+
    function addTask(taskTitle) {
       axios.post(`${backendUrl}/api/v1/tasks`, { taskName: taskTitle })
          .then((res) => {
