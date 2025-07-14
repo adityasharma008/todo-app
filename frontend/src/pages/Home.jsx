@@ -7,7 +7,7 @@ import { AppContext } from "../context/AppContext";
 
 
 function Home() {
-   const { backendUrl, isAuthorized } = useContext(AppContext);
+   const { backendUrl, isAuthorized, authReady } = useContext(AppContext);
    const [tasks, setTasks] = useState([]);
 
    axios.defaults.withCredentials = true;
@@ -61,7 +61,7 @@ function Home() {
    }
 
    useEffect(() => {
-      if(!isAuthorized) return
+      if(!authReady || !isAuthorized) return
       axios.get(`${backendUrl}/api/v1/tasks`)
          .then((res) => {
             setTasks(res.data.tasks);
@@ -69,7 +69,7 @@ function Home() {
          .catch((err) => {
             console.log(`Error fetching tasks: ${err}`);
          });
-   }, [backendUrl]);
+   }, [backendUrl, authReady]);
 
    return (
       <div className="app-container">

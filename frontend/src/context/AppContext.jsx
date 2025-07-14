@@ -9,6 +9,7 @@ const AppContextProvider = (props) => {
    const backendUrl = import.meta.env.VITE_BACKEND_URL
    const [isAuthorized, setIsAuthorized] = useState(false)
    const [userData, setUserData] = useState(false)
+   const [authReady, setAuthReady] = useState(false)
 
    const getAuthState = async () => {
       try {
@@ -19,6 +20,8 @@ const AppContextProvider = (props) => {
 
       } catch(error) {
          console.log(error)
+      } finally {
+         setAuthReady(true)
       }
    }
 
@@ -41,7 +44,7 @@ const AppContextProvider = (props) => {
       backendUrl,
       isAuthorized, setIsAuthorized,
       userData, setUserData,
-      getUserData
+      getUserData, authReady
    }
 
    return (
