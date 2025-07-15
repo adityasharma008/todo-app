@@ -72,17 +72,26 @@ function Home() {
    }, [backendUrl, authReady]);
 
    return (
-      <div className="app-container">
-         <Header />
-         <TaskForm addTask={addTask} />
-         <TaskList
+    <>
+      <div className="fixed top-6 right-10 z-20">
+      </div>
+      <div className="flex justify-center items-start min-h-screen bg-[#f0f2f5] py-10 px-4 pb-24">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl text-center app-container">
+          <Header />
+          <TaskForm addTask={addTask} />
+          <TaskList
             tasks={tasks}
             deleteTask={deleteTask}
             toggleComplete={toggleComplete}
             editTask={editTask}
-         />
+          />
+        </div>
       </div>
-   );
+      <footer className="fixed bottom-0 left-0 w-full flex justify-center py-4 bg-white border-t border-gray-200 text-sm text-gray-500 shadow-[0_-2px_8px_0_rgba(0,0,0,0.04)] z-10">
+        <a href="https://github.com/adityasharma008/todo-app" target="_blank" rel="noopener noreferrer" className="hover:underline">View on GitHub</a>
+      </footer>
+    </>
+  );
 }
 
 export default Home;
